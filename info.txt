@@ -1,0 +1,35 @@
+- there are three main types of object files
+	* relocatable file: holds code and data suitable for linking with other object files
+	* executable file: holds a program suitable for execution
+	* shared object file
+
+object files are binary representation of programs intended to execute durictly on a processor. ???!!!
+
+object files participate in program linking (building a program) and program execution (running a program).
+
+ELF header:
+	- resides at the beginning and holds a "road map" describing the file's organization.
+sections:
+	- hold the bulk of object file information for the linking view:
+		* instructions
+		* data
+		* symbol table
+		* relocation information
+		* ...
+program header table: (optional)
+	- tells the system how to create a process image.
+	- reloactable files do not need one.
+
+section header table:
+	- informations describing the file's sections.
+	- each section has an entry in the table; each entry gives information such as the
+	section name, size, etc,
+
+	- files used during linking must have a section header table.
+
+
+!!!! only the ELF header has a fixed position in the file.
+
+!!!! for portability reasons, ELF uses no bit-fields.
+
+

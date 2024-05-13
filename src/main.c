@@ -6,7 +6,6 @@
 #include <stdio.h>
 
 #include "../libs/ft/libft.h"
-
 #include "ft_nm.h"
 
 int open_file(t_object_file* file, const char *name) {
@@ -24,6 +23,15 @@ int open_file(t_object_file* file, const char *name) {
 
 
 int ft_nm(t_object_file *file) {
+    int ret = map(file);
+
+    if (ret == 0) {
+        load_elf_header(file);
+
+    }
+    else {
+        return 1;
+    }
     return 0;
 }
 

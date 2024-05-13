@@ -29,7 +29,7 @@ $(TARGET): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm $(OBJS)
+	rm -rf $(OBJS)
 
 fclean: clean
-	rm $(TARGET)
+	rm -rf $(TARGET)

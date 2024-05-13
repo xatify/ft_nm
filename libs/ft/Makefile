@@ -6,7 +6,10 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS =	fd_write.c		\
 		ft_strdup.c		\
-		ft_strlen.c
+		ft_strlen.c		\
+		ft_memcpy.c		\
+		ft_memset.c		\
+		ft_bzero.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -21,9 +24,9 @@ $(TARGET): $(OBJS)
 
 
 clean:
-	rm $(OBJS)
+	rm -rf $(OBJS)
 
 fclean: clean
-	rm $(TARGET)
+	rm -rf $(TARGET)
 
 

@@ -283,3 +283,67 @@ control to the proper destination address at execution.
 
 !! should data order be supported
 little endian / big endian 
+
+
+
+!! nm with no options sort the symbols
+
+
+symbol type:
+    - if lowercase: the symbol is usually local
+    - if uppercase: the symbol is global (external)
+
+    - there are however a few lowercase symbols that are shown 
+        for special global symbols ("u", "v", "w")
+    
+    A
+    the symbol's value is absolute, and will not be changed by further linking.
+    
+    B, b
+    the symbol is in the BSS data section
+    this section typically contains zero-initialized or uninitialized data.
+
+    C, c
+    the symbol is common
+    common symbols are uninitialized data.
+
+    D, d
+    the symbol is in the initialized data section
+
+    G, g
+    the symbol is in an initialized data section for small objects.
+
+    I
+    the symbol is an indirect reference to another symbol
+
+    N
+    the symbol is a debugging symbol
+
+    n
+    the symbol is in the read-only section
+
+    p
+    the symbol is in a stack unwind section
+
+    R, r 
+    the symbol is in a read only section
+
+    S, s
+    The symbol is in an uninitialized or zero-initialized data section
+
+    T, t
+    the symbol is in the text section
+
+    U
+    the symbol is undefined
+
+    u
+    the symbol is a unique global symbol
+
+    V, v
+    the symbol is a weak object
+
+    W, w
+    the symbol is a weak symbol that has not been specifically tagged as a weak object
+    symbol.
+

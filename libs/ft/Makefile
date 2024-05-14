@@ -9,7 +9,8 @@ SRCS =	fd_write.c		\
 		ft_strlen.c		\
 		ft_memcpy.c		\
 		ft_memset.c		\
-		ft_bzero.c
+		ft_bzero.c		\
+		ft_memcmp.c
 
 OBJS = $(SRCS:.c=.o)
 

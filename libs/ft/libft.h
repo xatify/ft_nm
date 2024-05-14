@@ -15,6 +15,7 @@ void        *ft_memset(void*, int, size_t n);
 
 void        *ft_bzero(void*, size_t);
 
+int         ft_memcmp(const void*, const void*, size_t);
 
 
 #define STDERR 2

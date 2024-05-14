@@ -25,6 +25,7 @@ int open_file(t_object_file* file, const char *name) {
 int ft_nm(t_object_file *file) {
     int ret = map(file);
 
+    // printf("maping %d\n", ret);
     if (ret == 0) {
         load_elf_header(file);
 

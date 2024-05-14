@@ -30,6 +30,8 @@ $(TARGET): $(OBJS) $(LIBFT)
 
 clean:
 	rm -rf $(OBJS)
+	make -C $(LIBFT_PATH) clean
 
 fclean: clean
 	rm -rf $(TARGET)
+	make -C $(LIBFT_PATH) fclean

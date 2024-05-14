@@ -91,19 +91,17 @@ char *shstr_lookup_string(Elf32_Ehdr *hdr, int offset) {
     return (char *)hdr + sth->sh_offset + offset;
 }
 
-Elf32_Shdr* symtab(Elf32_Ehdr *hdr) {
-    Elf32_Shdr* sheader = elf_sheader(hdr);
-    char *name;
-    const char* symtab = ".symtab";
+Elf32_Shdr *get_sheader_by_name(Elf32_Ehdr *hdr, const char* name) {
+    Elf32_Shdr* sheader;
+    char *_name;
     int idx;
-
-
+    
+    sheader = elf_sheader(hdr);
     idx = 0;
     while (idx < hdr->e_shnum) {
         if (idx != SHN_UNDEF) {
-            name = shstr_lookup_string(hdr, sheader->sh_name);
-            if (!ft_memcmp(name, symtab, ft_strlen(symtab))) {
-                printf("found symtab: %s\n", name);
+            _name = shstr_lookup_string(hdr, sheader->sh_name);
+            if (!ft_memcmp(name, _name, ft_strlen(name))) {
                 return sheader;
             }
         }
@@ -113,26 +111,83 @@ Elf32_Shdr* symtab(Elf32_Ehdr *hdr) {
     return NULL;
 }
 
-// void iterate_over_section_names(Elf32_Ehdr *hdr) {
-//     Elf32_Shdr* sheader = elf_sheader(hdr);
+void *get_section_by_name(Elf32_Ehdr *hdr, const char *name) {
+    Elf32_Shdr *sheader;
 
-//     int i = 0;
+    sheader = get_sheader_by_name(hdr, name);
+    if (sheader) {
+        return ((char *)hdr + sheader->sh_offset);
+    }
+    return NULL;
+}
 
-//     // some section header table indexes are reserved,
-//     // an object file will not have sections for these
-//     // special indexes
 
-//     printf("sections names:\n");
-//     while(i < hdr->e_shnum) {
-//         if (i != SHN_UNDEF) {
-//             char *name = shstr_lookup_string(hdr, sheader->sh_name);
-//             // printf("%s\n", name);
+// #define ELF32_ST_BIND(i) ((i)>>4)
+// #define ELF32_ST_TYPE(i) ((i)&0xf)
+// #define ELF32_ST_INFO(b, t) (((b)<<4) + ((t)&0xf))
 
-//         }
-//         sheader += 1;
-//         i++;
-//     }
-// }
+char *get_symbol_name(Elf32_Ehdr *hdr, size_t idx) {
+    char *symstrtab = get_section_by_name(hdr, ".strtab");
+
+    if (symstrtab) {
+        return symstrtab + idx;
+    }
+    return NULL;
+}
+
+const char*types[] = {
+    "STT_NOTYPE",
+    "STT_OBJECT",
+    "STT_FUNC",
+    "STT_SECTION",
+    "STT_FILE",
+    "STT_LOPROC",
+    "STT_HIPROC",
+};
+
+void print_symbol(Elf32_Ehdr* hdr, Elf32_Sym *sym) {
+    unsigned int value;
+    char *name;
+    const char *type;
+
+    if (sym->st_name) {
+        value = sym->st_value;
+        type = types[ELF32_ST_TYPE(sym->st_info)];
+        name = get_symbol_name(hdr, sym->st_name);
+        if (name) {
+            printf("%08x      %s      %s\n", value, type, name);
+        }
+    }
+}
+
+
+
+
+void iterate_over_symtab(Elf32_Ehdr *hdr) {
+    Elf32_Shdr *sheader;
+    Elf32_Sym *section;
+    size_t idx;
+
+    
+    section = NULL;
+    sheader = get_sheader_by_name(hdr, ".symtab");
+    section = (Elf32_Sym *)get_section_by_name(hdr, ".symtab");
+
+    unsigned int size = (sheader->sh_size) / (sheader->sh_entsize);
+    if (sheader && section) {
+        idx = 0;
+        printf("sym table found\n");
+        printf("entsize: %d\n", size);
+        while (idx < size) {
+            if (idx != STN_UNDEF) {
+                print_symbol(hdr, section);
+            }
+            idx++;
+            section++;
+        }
+    }
+}
+
 
 
 
@@ -152,31 +207,8 @@ int load_elf_header(t_object_file *file) {
     ft_bzero(&elf_header, sizeof(Elf32_Ehdr));
     ft_memcpy((void *)(&elf_header), file->content, sizeof(Elf32_Ehdr));
 
-    int is_elf = elf_check_file(&elf_header);
 
-    // printf("is elf: %d\n", is_elf);
-
-    // printf("class 32: %d\n", elf_class(&elf_header));
-
-    // printf("little endian: %d\n", elf_byte_order(&elf_header));
-
-    // _elf_machine(&elf_header);
-
-    // _elf_type(&elf_header);
-
-    // Elf32_Shdr* sheader = elf_sheader((Elf32_Ehdr *)file->content);
-
-    // printf("section header offset: %d\n", elf_header.e_shoff);
-
-
-    // iterate_over_section_names(&elf_header);
-
-    // lookup_string((Elf32_Ehdr *)file->content, 0);
-
-    // iterate_over_section_names((Elf32_Ehdr *)file->content);
-
-    symtab((Elf32_Ehdr *)file->content);
-
+    iterate_over_symtab((Elf32_Ehdr *)file->content);
 
     return 0;
 }

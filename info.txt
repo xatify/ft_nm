@@ -279,3 +279,7 @@ relocation is the process of connecting symbloc references with symblic definiti
 for example, when a program calls a function, the associated call instruction must transfer
 control to the proper destination address at execution.
 
+
+
+!! should data order be supported
+little endian / big endian 

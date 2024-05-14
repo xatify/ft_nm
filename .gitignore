@@ -1,11 +1,11 @@
 
 #objs
-.o
+*.o
 
 #libs
-.a
-.lib
-.so
+*.a
+*.lib
+*.so
 
 #exec
-.out
+*.out

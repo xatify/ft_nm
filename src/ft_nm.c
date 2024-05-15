@@ -91,6 +91,17 @@ char *shstr_lookup_string(Elf32_Ehdr *hdr, int offset) {
     return (char *)hdr + sth->sh_offset + offset;
 }
 
+char *section_name_by_idx(Elf32_Ehdr *hdr, int idx) {
+    Elf32_Shdr *sheader;
+
+    sheader = elf_sheader_idx(hdr, idx);
+    if (sheader) {
+        return shstr_lookup_string(hdr, sheader->sh_name);
+    }
+    return NULL;
+}
+
+
 Elf32_Shdr *get_sheader_by_name(Elf32_Ehdr *hdr, const char* name) {
     Elf32_Shdr* sheader;
     char *_name;
@@ -135,27 +146,25 @@ char *get_symbol_name(Elf32_Ehdr *hdr, size_t idx) {
     return NULL;
 }
 
-const char*types[] = {
-    "STT_NOTYPE",
-    "STT_OBJECT",
-    "STT_FUNC",
-    "STT_SECTION",
-    "STT_FILE",
-    "STT_LOPROC",
-    "STT_HIPROC",
-};
 
 void print_symbol(Elf32_Ehdr* hdr, Elf32_Sym *sym) {
     unsigned int value;
     char *name;
-    const char *type;
+    char type;
+
+
 
     if (sym->st_name) {
         value = sym->st_value;
-        type = types[ELF32_ST_TYPE(sym->st_info)];
         name = get_symbol_name(hdr, sym->st_name);
-        if (name) {
-            printf("%08x      %s      %s\n", value, type, name);
+        type = sym_type(hdr, sym);
+        if (name && type) {
+            if (type == 'U' || type == 'u') {
+                printf("%*s      %c      %s\n", 8, "", type, name);
+            }
+            else {
+                printf("%08x      %c      %s\n", value, type, name);
+            }
         }
     }
 }
@@ -176,10 +185,9 @@ void iterate_over_symtab(Elf32_Ehdr *hdr) {
     unsigned int size = (sheader->sh_size) / (sheader->sh_entsize);
     if (sheader && section) {
         idx = 0;
-        printf("sym table found\n");
-        printf("entsize: %d\n", size);
         while (idx < size) {
             if (idx != STN_UNDEF) {
+                // printf("in section: %s\n", section_name_by_idx(hdr, idx));
                 print_symbol(hdr, section);
             }
             idx++;

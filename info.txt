@@ -335,7 +335,7 @@ symbol type:
     the symbol is in the text section
 
     U
-    the symbol is undefined
+    the      is undefined
 
     u
     the symbol is a unique global symbol
@@ -346,4 +346,158 @@ symbol type:
     W, w
     the symbol is a weak symbol that has not been specifically tagged as a weak object
     symbol.
+
+- nm chooses the character mostly based on the section in which the symbol 
+appears.
+
+the symbol binding (ELF32_ST_BIND(st_info)) determines whether the symbol is local
+(lowercase), global (uppercase), or weak (v, w).
+
+sh_shndx points to the section containing the symbol.
+
+
+Symbol Table Entry
+
+typdef struct {
+    Elf32_Word      st_name;
+    Elf32_Addr      st_value;
+    Elf32_Word      st_size;
+    unsigned char   st_info;
+    unsigned char   st_other;
+    Elf32_Half      st_shndx;
+} Elf32_Sym;
+
+
+st_name:
+    - holds an index into the object file's symbol string table.
+    
+    !! external C symbols have the same names in C and object files's symbol tables
+
+st_value:
+    - the value of the associated symbol.
+    - depending on the context, this may be an absolute value
+    - an address
+
+st_size:
+    - symbols have associated sizes
+    - a data object's size is the number of bytes contained in the object.
+    - this member holds 0 if the symbol has no size or an unknown size
+
+st_info:
+    this member specifies the symbol's type and binding attributes
+        A symbol's binding determines the linkage visibility and behavior.
+
+            ELF32_ST_BIND
+                STB_LOCAL       0
+                STB_GLOBAL      1
+                STB_WEAK        2
+                STB_LOPROC      13
+                STB_HIPROC      15
+
+            STB_LOCAL:
+                - local symbol are not visible outside the object file 
+                containing their definition.
+                - local symbols of the same name may exist in multiple files
+                without interfering with each other.
+            STB_GLOBAL:
+                - Global symbols are visible to all files being combined.
+                - one file's definition of a global symbol will satisfy another
+                file's undefined reference to the same global symbol.
+            
+            STB_WEAK:
+                - Weak symbols resemble global symbols, but their definitions
+                have lower precedence.
+            
+            STB_LOPROC through STB_HIPROC:
+                - values in this inclusive range are reserved for processor-
+                specific semantics.
+            
+        
+        in each symbol table, all symbols with STB_LOCAL binding precede the weak
+        and global symbols.
+    
+    A symbol's type provides a general classification for the associated entity.
+        
+        ELF32_ST_TYPE
+            STT_NOTYPE      0
+            STT_OBJECT      1
+            STT_FUNC        2
+            STT_SECTION     3
+            STT_FILE        4
+            STT_LOPROC      13
+            STT_HIPROC      15
+        
+        STT_NOTYPE:
+            - the symbol type is not specific
+        STT_OBJECT:
+            - the symbol is associated with a data object
+            - such as a variable or an array.
+        STT_FUNC:
+            - the symbol is associated with a function or
+            - other executable code.
+        STT_SECTION:
+            - the symbol is associated with a section.
+            - Symbol table entries of this type exist primarly
+            - for relocation and normally have STB_LOCAL binding.
+        STT_FILE:
+            - the symbo's name gives the name of the source file associated with
+            object file.
+            - a file symbol has STB_LOCAL binding, it's section index is SHN_ABS
+            - it precedes the other STB_LOCAL symbols for the file.
+        STT_LOPROC -> STT_HIPROC:
+            - values in this inclusive range are reserved for processor-
+            specific semantics.
+    
+    if a symbol's value refers to a specific location within a section.
+    it's section index member st_shndx holds an index into the section header
+    table.
+
+        as the section moves during the relocation, the symbol's value
+        changes as well.
+
+        some special section index values give other semantics.
+
+        SHN_ABS:
+            the symbol has an absolute value that will not change because
+            of relocation.
+
+        SHN_COMMON:
+            the symbols labels a common block that has not yet been allocated.
+
+        SHN_UNDEF:
+            this section table index means the symbol is undefined. 
+st_other:
+    this member currently holds 0 and has no defined meaning.
+
+st_shndx:
+    every symbol table entry is "defined" in relation to some section
+    this member holds the relevant section header table index.
+
+Symbol Values:
+    Symbol table entries for diffrent object file types have slightly different
+    interpretations for the st_value:
+        * in relocatable files: st_value holds alignment constraints for a symbol
+        whose section index is SHN_COMMON.
+        * in relocatable files, st_value holds a section offset for a defined 
+        symbol. that is st_value is an offset from the begining of the section
+        that st_shndx identifies.
+        * in executable and shared object files
+        st_value holds a virtual address 
+
+
+A Weak symbol:
+    denotes special a specially annotated symbol during linking of executable
+    and linkable format.
+    by default, without any annotation, a symbol in an object file is strong.
+
+    During linking, a strong symbol can override w weak symbol of the same name.
+    in the presence of two strong symbols by the same name the linker resolves
+    the symbol in favor of the first one found.
+
+    !! this behavior allows an executable to override standard library functions.
+
+
+
+
+!! gcc-multilib is need to compile to x8086 32
 

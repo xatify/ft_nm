@@ -4,20 +4,28 @@
 #include "../libs/ft/libft.h"
 #include <elf.h>
 
+typedef struct s_symbol {
+    size_t value;
+    char type;
+    char *name;
+} t_symbol;
+
 typedef struct s_object_file {
     int fd;
-    const char *name;
+    char *name;
     int size;
     void *content;
+    int sym_num;
+    t_symbol *symbols;
 } t_object_file;
 
+
+void init_file(t_object_file *file);
 int ft_nm(t_object_file *);
-
 void print_error(const char *);
-
 int map(t_object_file *file);
-
 int load_elf_header(t_object_file *file);
+
 
 
 

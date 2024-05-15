@@ -10,6 +10,8 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
+
 
 int map(t_object_file *file) {
     struct stat filestat;
@@ -147,35 +149,38 @@ char *get_symbol_name(Elf32_Ehdr *hdr, size_t idx) {
 }
 
 
-void print_symbol(Elf32_Ehdr* hdr, Elf32_Sym *sym) {
+int get_symbol(Elf32_Ehdr* hdr, Elf32_Sym *sym, t_symbol *symbol) {
     unsigned int value;
     char *name;
     char type;
-
 
 
     if (sym->st_name) {
         value = sym->st_value;
         name = get_symbol_name(hdr, sym->st_name);
         type = sym_type(hdr, sym);
+
+
         if (name && type) {
-            if (type == 'U' || type == 'u') {
-                printf("%*s      %c      %s\n", 8, "", type, name);
-            }
-            else {
-                printf("%08x      %c      %s\n", value, type, name);
-            }
+            symbol->name = name;
+            symbol->value = value;
+            symbol->type = type;
+            return 0;
         }
     }
+    return -1;
 }
 
 
 
 
-void iterate_over_symtab(Elf32_Ehdr *hdr) {
+void iterate_over_symtab(Elf32_Ehdr *hdr, t_object_file *file) {
     Elf32_Shdr *sheader;
     Elf32_Sym *section;
     size_t idx;
+    t_symbol *symbols;
+
+    int i;
 
     
     section = NULL;
@@ -183,17 +188,26 @@ void iterate_over_symtab(Elf32_Ehdr *hdr) {
     section = (Elf32_Sym *)get_section_by_name(hdr, ".symtab");
 
     unsigned int size = (sheader->sh_size) / (sheader->sh_entsize);
+    
+    symbols = (t_symbol *)malloc(size * sizeof(t_symbol));
+    i = 0;
+
     if (sheader && section) {
         idx = 0;
         while (idx < size) {
             if (idx != STN_UNDEF) {
-                // printf("in section: %s\n", section_name_by_idx(hdr, idx));
-                print_symbol(hdr, section);
+                // print_symbol(hdr, section);
+                if (get_symbol(hdr, section, symbols) == 0) {
+                    i++;
+                    symbols++;
+                }
             }
             idx++;
             section++;
         }
     }
+    file->symbols = symbols - i;
+    file->sym_num = i;
 }
 
 
@@ -216,7 +230,11 @@ int load_elf_header(t_object_file *file) {
     ft_memcpy((void *)(&elf_header), file->content, sizeof(Elf32_Ehdr));
 
 
-    iterate_over_symtab((Elf32_Ehdr *)file->content);
+    iterate_over_symtab((Elf32_Ehdr *)file->content, file);
+
+    for (int i=0; i < file->sym_num; i++) {
+        printf("%s\n", file->symbols[i].name);
+    }
 
     return 0;
 }

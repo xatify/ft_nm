@@ -1,4 +1,4 @@
-#include <stdio.h>
+// #include <stdio.h>
 
 
 extern int buf[];
@@ -27,6 +27,10 @@ void swap() {
 }
 
 
-void to_print(const char *p) {
-    printf("%s", p);
+int to_print(const char *p) {
+    // printf("%s", p);
+
+    static char **lines;
+    
+    return 0;
 }

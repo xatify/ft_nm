@@ -8,7 +8,7 @@
 #include "../libs/ft/libft.h"
 #include "ft_nm.h"
 
-int open_file(t_object_file* file, const char *name) {
+int open_file(t_object_file* file, char *name) {
     int fd;
     fd = open(name, O_RDONLY);
     if (fd < 0) {
@@ -36,14 +36,34 @@ int ft_nm(t_object_file *file) {
     return 0;
 }
 
+void init_file(t_object_file *file) {
+    file->fd = -1;
+    file->name = NULL;
+    file->size = -1;
+    file->content = NULL;
+    file->sym_num = 0;
+    file->symbols = NULL;
+}
+
+void reset_file(t_object_file *file) {
+    close(file->fd);
+    if (file->content) {
+        munmap(file->content, file->size);
+    }
+    if (file->symbols) {
+        free(file->symbols);
+    }
+    init_file(file);
+}
+
 int main(int argc, char *argv[]) {
     t_object_file file;
     int ret;
     int error;
     int i;
 
-    file.fd = -1;
-    file.name = NULL;
+    
+    init_file(&file);
 
     error = 0;
     if (argc == 1) {
@@ -60,8 +80,7 @@ int main(int argc, char *argv[]) {
     else {
         i = 1;
         while (i < argc) {
-            close(file.fd);
-            file.fd = -1;
+            reset_file(&file);
             ret = open_file(&file, argv[i]);
             if (ret == -1) {
                 exit(1);

@@ -18,6 +18,8 @@ void        *ft_bzero(void*, size_t);
 int         ft_memcmp(const void*, const void*, size_t);
 
 
+#define STREQUAL(s1,s2) !ft_memcmp(s1,s2,ft_strlen(s1))
+
 #define STDERR 2
 #define ERROR(s) fd_write(s, STDERR)
 

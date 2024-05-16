@@ -17,6 +17,10 @@ void        *ft_bzero(void*, size_t);
 
 int         ft_memcmp(const void*, const void*, size_t);
 
+void        ft_qsort(void *base, int nmemb, int size, int (*)(const void*, const void*));
+
+int         ft_strcmp(const char *, const char *);
+
 
 #define STREQUAL(s1,s2) !ft_memcmp(s1,s2,ft_strlen(s1))
 

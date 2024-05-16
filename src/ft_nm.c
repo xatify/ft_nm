@@ -213,6 +213,13 @@ void iterate_over_symtab(Elf32_Ehdr *hdr, t_object_file *file) {
 
 
 
+int cmpsym(const void *sym1, const void *sym2) {
+    return (
+        ft_strcmp(((t_symbol *)sym2)->name, ((t_symbol *)sym1)->name)
+    );
+}
+
+
 int load_elf_header(t_object_file *file) {
     Elf32_Ehdr elf_header;
 
@@ -232,9 +239,22 @@ int load_elf_header(t_object_file *file) {
 
     iterate_over_symtab((Elf32_Ehdr *)file->content, file);
 
+
+
+
+
     for (int i=0; i < file->sym_num; i++) {
         printf("%s\n", file->symbols[i].name);
     }
+    ft_qsort(
+        file->symbols, file->sym_num, sizeof(t_symbol), cmpsym
+    );
+
+    printf("===========Sorted=============\n");
+    for (int i=0; i < file->sym_num; i++) {
+        printf("%s\n", file->symbols[i].name);
+    }
+
 
     return 0;
 }

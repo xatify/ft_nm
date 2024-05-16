@@ -41,4 +41,7 @@ int is_object(Elf32_Sym *);
 char sym_type(Elf32_Ehdr*,  Elf32_Sym*);
 
 
+// printing
+void print_symbol(t_symbol *);
+
 #endif

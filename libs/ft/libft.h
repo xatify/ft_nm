@@ -9,6 +9,8 @@ char        *ft_strdup(const char *);
 
 void        fd_write(const char* , int);
 
+void        fd_swrite(const char *, int, size_t);
+
 void        *ft_memcpy(void*, const void*, size_t);
 
 void        *ft_memset(void*, int, size_t n);
@@ -26,7 +28,11 @@ int         ft_stralnumcmp(const char *, const char *);
 
 #define STREQUAL(s1,s2) !ft_memcmp(s1,s2,ft_strlen(s1))
 
+#define STDOUT 1
 #define STDERR 2
+
 #define ERROR(s) fd_write(s, STDERR)
+#define OUTPUT(s) fd_write(s, STDOUT)
+#define SOUTPUT(s,l)  fd_swrite(s, STDOUT, l)
 
 #endif

@@ -196,7 +196,6 @@ void iterate_over_symtab(Elf32_Ehdr *hdr, t_object_file *file) {
         idx = 0;
         while (idx < size) {
             if (idx != STN_UNDEF) {
-                // print_symbol(hdr, section);
                 if (get_symbol(hdr, section, symbols) == 0) {
                     i++;
                     symbols++;
@@ -215,7 +214,7 @@ void iterate_over_symtab(Elf32_Ehdr *hdr, t_object_file *file) {
 
 int cmpsym(const void *sym1, const void *sym2) {
     return (
-        ft_strcmp(((t_symbol *)sym2)->name, ((t_symbol *)sym1)->name)
+        ft_stralnumcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name)
     );
 }
 
@@ -239,22 +238,13 @@ int load_elf_header(t_object_file *file) {
 
     iterate_over_symtab((Elf32_Ehdr *)file->content, file);
 
-
-
-
-
-    for (int i=0; i < file->sym_num; i++) {
-        printf("%s\n", file->symbols[i].name);
-    }
     ft_qsort(
         file->symbols, file->sym_num, sizeof(t_symbol), cmpsym
     );
 
-    printf("===========Sorted=============\n");
-    for (int i=0; i < file->sym_num; i++) {
-        printf("%s\n", file->symbols[i].name);
+    for (int i = 0; i < file->sym_num; i++) {
+        print_symbol(file->symbols + i);
     }
-
 
     return 0;
 }

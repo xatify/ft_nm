@@ -21,6 +21,8 @@ void        ft_qsort(void *base, int nmemb, int size, int (*)(const void*, const
 
 int         ft_strcmp(const char *, const char *);
 
+int         ft_stralnumcmp(const char *, const char *);
+
 
 #define STREQUAL(s1,s2) !ft_memcmp(s1,s2,ft_strlen(s1))
 

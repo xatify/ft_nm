@@ -6,7 +6,7 @@ LIBFT_PATH = libs/ft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 CC = gcc
-CFALGS = --Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 SRCS =	src/main.c		\
 		src/ft_nm.c		\

@@ -228,7 +228,7 @@ int load_elf_header(t_object_file *file) {
     // else if it's 2 load 64 elf header
     size_t size = sizeof(Elf32_Ehdr);
 
-    if (file->size < size) {
+    if (file->size < (int)size) {
         return (-1);
     }
 

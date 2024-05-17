@@ -1,0 +1,14 @@
+
+#objs
+*.o
+
+#libs
+*.a
+*.lib
+*.so
+
+#exec
+*.out
+
+#vscode
+.vscode/

@@ -1,4 +1,4 @@
-TARGET = src/ft_nm
+TARGET = src/nm
 
 
 LIBFT_PATH = libs/ft
@@ -10,7 +10,9 @@ CFALGS = --Wall -Wextra -Werror
 
 SRCS =	src/main.c		\
 		src/ft_nm.c		\
-		src/utils.c
+		src/utils.c		\
+		src/sym_type.c	\
+		src/output.c
 
 
 

@@ -12,7 +12,7 @@
 
 static const char* SECTIONS[] = {
     ".bss",
-    ".rodata",
+    ".rodata"
 };
 
 

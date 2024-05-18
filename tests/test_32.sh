@@ -4,7 +4,11 @@ shopt -s globstar
 
 TEMPDIR=$(pwd)/tests/o
 
-generate_elfs() {
+
+ARCH=""
+ODIR=""
+C32=""
+set_env() {
     ARCH=$1
     ODIR=""
     C32=""
@@ -15,6 +19,9 @@ generate_elfs() {
         64)
             ODIR="$TEMPDIR/64";;
     esac
+}
+
+generate_elfs() {
 
     rm -rf $ODIR
     mkdir -p $ODIR
@@ -30,15 +37,8 @@ generate_elfs() {
 }
 
 
-test() {
-
-    if [ ! -f $NMPATH ]; then
-        >&2 echo "command not found";
-        return 1
-    fi
-    
-    generate_elfs $1
-
+test_single_arg() {
+    echo ============== Single Arg Test ==============
     for o in "$ODIR"/*; do
         echo "============== Testing $o ============="
         if [ -f "$o" ]; then
@@ -47,8 +47,45 @@ test() {
     done
 }
 
+test_multiple_args() {
+    echo "=============== Multiple ARGs test=========="
+    diff <(./$NMPATH $ODIR/*) <(nm $ODIR/*)
+}
+
+test_no_args() {
+
+    echo "=============== No ARGS test ==============="
+    # rm -f "$ODIR/a.out"
+    rm -f a.out
+    diff <(./$NMPATH) <(nm)
+    echo '
+#include <stdio.h>
+const char *p = "testing";
+int main (int argc, char **argv) {
+    printf("%s\n", p);
+    return 0;
+}
+    ' > .tmp.c
+
+    gcc $C32 .tmp.c -o a.out
+
+    diff <(./$NMPATH) <(nm)
+    rm -f a.out .tmp.c
+}
 
 NMPATH="./src/nm"
 
-test $1
+if [ ! -f $NMPATH ]; then
+    >&2 echo "command not found";
+    return 1
+fi
+
+set_env $1
+generate_elfs $1
+test_single_arg
+test_multiple_args 
+
+test_no_args
+
+
 

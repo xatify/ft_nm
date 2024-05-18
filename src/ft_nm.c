@@ -154,22 +154,66 @@ char *get_symbol_name(Elf32_Ehdr *hdr, size_t idx) {
 }
 
 
+
+
 int get_symbol(Elf32_Ehdr* hdr, Elf32_Sym *sym, t_symbol *symbol) {
     unsigned int value;
     char *name;
-    char type;
+    char t;
+    Elf32_Shdr *sheader;
+    unsigned char bind;
+    unsigned char type;
 
 
     if (sym->st_name) {
         value = sym->st_value;
         name = get_symbol_name(hdr, sym->st_name);
-        type = sym_type(hdr, sym);
+        // type = sym_type(hdr, sym);
 
+        sheader = elf_sheader_idx(hdr, sym->st_shndx);
+        
+        bind = ELF32_ST_BIND(sym->st_info);
+        type = ELF32_ST_TYPE(sym->st_info);
+        if (type == STT_FILE)
+            return -1;
+        t = '?';
+        
+        if (bind == STB_WEAK && type == STT_OBJECT) {
+            t = 'V';
+            if (sym->st_shndx == SHN_UNDEF)
+                t = 'v';
+        }
+        else if (bind == STB_WEAK) {
+            t = 'W';
+            if (sym->st_shndx == SHN_UNDEF)
+                t = 'w';
+        }
+        else if (sym->st_shndx == SHN_UNDEF)
+            t = 'U';
+        else if (sym->st_shndx == SHN_ABS)
+            t = 'A';
+        else if (sym->st_shndx == SHN_COMMON)
+            t = 'C';
+        else if (sheader->sh_type == SHT_NOBITS && sheader->sh_flags == (SHF_ALLOC | SHF_WRITE))
+            t = 'B';
+        else if (sheader->sh_flags == SHF_ALLOC)
+            t = 'R';
+        else if (sheader->sh_type == SHT_PROGBITS && sheader->sh_flags == (SHF_ALLOC | SHF_EXECINSTR))
+            t = 'T';
+        else if (sheader->sh_flags == (SHF_ALLOC | SHF_WRITE))
+            t = 'D';
+        else if (sheader->sh_type == SHT_DYNAMIC)
+            t = 'D';
+        else
+            t = 'T';
+        
+        if (bind == STB_LOCAL)
+            t += 32;
 
-        if (name && type) {
+        if (name && t) {
             symbol->name = name;
             symbol->value = value;
-            symbol->type = type;
+            symbol->type = t;
             return 0;
         }
     }

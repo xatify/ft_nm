@@ -21,7 +21,7 @@ void hexa_rep(size_t n, int size, char c, char *buf) {
 
 
 static int to_print_value(t_symbol *sym) {
-    if (sym->type == 'U' || sym->type == 'u') {
+    if (sym->type == 'U' || sym->type == 'u' || sym->type == 'w' || sym->type == 'W') {
         return 0;
     }
     return 1;

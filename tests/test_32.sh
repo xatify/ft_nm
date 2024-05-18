@@ -1,21 +1,6 @@
 #!/bin/bash
 
-# shopt -s globstar
-
-# echo "====================================="
-# echo "======Testing 32 elf objects ========" 
-# TEMPDIR=$(pwd)/tests/objdir
-# ODIR32=$TEMPDIR"/32"
-# mkdir -p $ODIR32
-
-# ls -d -1 "$PWD/"**/* | grep -E '\.c' > cfiles
-# while read p; do
-#     name=$(basename -- $p)
-#     name="${name%.*}"
-#     gcc -c -m32 $p -o $ODIR32"/"$name".o"
-#     # echo $name
-# done <cfiles
-# rm -r cfiles
+shopt -s globstar
 
 TEMPDIR=$(pwd)/tests/o
 
@@ -31,17 +16,38 @@ generate_elfs() {
             ODIR="$TEMPDIR/64";;
     esac
 
-
     rm -rf $ODIR
     mkdir -p $ODIR
 
-    ls -d -1 "$PWD/"**/* | grep -E '\c' > .cfiles
+    ls -d -1 "$PWD/"**/* | grep -E '\.c' > .cfiles
     while read p; do
         name=$(basename -- $p)
         name="${name%.*}"
         gcc -c $C32 $p -o $ODIR/$name.o
     done <.cfiles
 
+    rm -rf .cfiles
 }
 
-generate_elfs "32"
+
+test_32() {
+
+    if [ ! -f $NMPATH ]; then
+        >&2 echo "command not found";
+        return 1
+    fi
+    generate_elfs "32"
+
+    for o in "$ODIR"/*; do
+        echo "============== Testing $o ============="
+        if [ -f "$o" ]; then
+            diff <(./$NMPATH $o) <(nm $o)
+        fi
+    done
+}
+
+
+NMPATH="./src/nm"
+
+test_32
+

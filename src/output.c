@@ -11,7 +11,6 @@ static inline void fill(char *buf, char c, size_t size) {
 }
 
 void hexa_rep(size_t n, int size, char c, char *buf) {
-    int rem;
 
     while(size--) *buf++ = c;
     while (n) {

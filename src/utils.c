@@ -3,8 +3,9 @@
 #include <stdio.h>
 
 void print_error(const char *str) {
-    ERROR("nm : '");
+    ERROR("nm: '");
     ERROR(str);
-    ERROR("' : ");
-    perror(NULL);
+    ERROR("': ");
+    ERROR("No such file\n");
+    // perror(NULL);
 }

@@ -6,7 +6,7 @@ LIBFT_PATH = libs/ft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 CC = gcc
-CFALGS = --Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 SRCS =	src/main.c		\
 		src/ft_nm.c		\
@@ -37,3 +37,10 @@ clean:
 fclean: clean
 	rm -rf $(TARGET)
 	make -C $(LIBFT_PATH) fclean
+
+re: fclean all
+
+test:
+	@if [ "$(ARCHI)" -eq "32" ]; then \
+	bash tests/test_32.sh "32"; \
+	fi

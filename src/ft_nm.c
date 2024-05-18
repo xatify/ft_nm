@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <string.h>
+
 
 int map(t_object_file *file) {
     struct stat filestat;
@@ -139,6 +141,9 @@ void *get_section_by_name(Elf32_Ehdr *hdr, const char *name) {
 // #define ELF32_ST_TYPE(i) ((i)&0xf)
 // #define ELF32_ST_INFO(b, t) (((b)<<4) + ((t)&0xf))
 
+
+
+
 char *get_symbol_name(Elf32_Ehdr *hdr, size_t idx) {
     char *symstrtab = get_section_by_name(hdr, ".strtab");
 
@@ -212,6 +217,9 @@ void iterate_over_symtab(Elf32_Ehdr *hdr, t_object_file *file) {
 
 
 
+
+
+
 int cmpsym(const void *sym1, const void *sym2) {
     return (
         ft_stralnumcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name)
@@ -228,7 +236,7 @@ int load_elf_header(t_object_file *file) {
     // else if it's 2 load 64 elf header
     size_t size = sizeof(Elf32_Ehdr);
 
-    if (file->size < size) {
+    if (file->size < (int)size) {
         return (-1);
     }
 

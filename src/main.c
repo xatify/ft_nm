@@ -66,8 +66,12 @@ int main(int argc, char *argv[]) {
     init_file(&file);
 
     error = 0;
-    if (argc == 1) {
-        ret = open_file(&file, "a.out");
+
+    if (argc <= 2) {
+        if (!argv[1])
+            ret = open_file(&file, "a.out");
+        else
+            ret = open_file(&file, argv[1]);
         if (ret == -1) {
             exit (1);
         }
@@ -85,6 +89,10 @@ int main(int argc, char *argv[]) {
             if (ret == -1) {
                 exit(1);
             }
+            OUTPUT("\n");
+            OUTPUT(argv[i]);
+            OUTPUT(":");
+            OUTPUT("\n");
             ret = ft_nm(&file);
             if (ret) {
                 error = 1;

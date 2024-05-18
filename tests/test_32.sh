@@ -30,13 +30,14 @@ generate_elfs() {
 }
 
 
-test_32() {
+test() {
 
     if [ ! -f $NMPATH ]; then
         >&2 echo "command not found";
         return 1
     fi
-    generate_elfs "32"
+    
+    generate_elfs $1
 
     for o in "$ODIR"/*; do
         echo "============== Testing $o ============="
@@ -49,5 +50,5 @@ test_32() {
 
 NMPATH="./src/nm"
 
-test_32
+test $1
 

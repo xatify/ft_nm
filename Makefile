@@ -37,3 +37,10 @@ clean:
 fclean: clean
 	rm -rf $(TARGET)
 	make -C $(LIBFT_PATH) fclean
+
+re: fclean all
+
+test:
+	@if [ "$(ARCHI)" -eq "32" ]; then \
+	bash tests/test_32.sh "32"; \
+	fi

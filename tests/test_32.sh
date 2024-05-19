@@ -73,6 +73,36 @@ int main (int argc, char **argv) {
     rm -f a.out .tmp.c
 }
 
+# test_incorrect_object
+
+test_incorrect_elfs() {
+    
+    echo "========= Testing incorrect elfs ============"
+    # compile the gen_incorrect_elfs.c
+
+    cd ./tests
+    mkdir incorrect
+    gcc incorrect_elfs.c
+    ./a.out
+
+    for o in incorrect/*; do
+        ../$NMPATH $o 2> err1
+        ret1=$?
+        nm $o 2> err2
+        ret2=$?
+
+        diff err1 err2
+        if [ "$ret1" != "$ret2" ]; then
+            echo error on $o file
+        fi
+    done
+
+    rm -rf incorrect
+    rm -rf a.out
+    rm -rf err*
+    cd - > /dev/null
+}
+
 NMPATH="./src/nm"
 
 if [ ! -f $NMPATH ]; then
@@ -80,12 +110,16 @@ if [ ! -f $NMPATH ]; then
     return 1
 fi
 
+
+
 set_env $1
 generate_elfs $1
 test_single_arg
 test_multiple_args 
 
 test_no_args
+
+test_incorrect_elfs
 
 
 

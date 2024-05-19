@@ -134,16 +134,16 @@ static int gen_no_symbols(const char *name) {
 static const t_objectf files[] = {
     {
         // empty file
-        .name = "empty_file.o",
+        .name = "./incorrect/empty_file.o",
         .generator = gen_empty,
     },
     {
         // object with wrong identification
-        .name = "wrong_ident.o",
+        .name = "./incorrect/wrong_ident.o",
         .generator = gen_wrong_ident,
     },
     {
-        .name = "no_symbols.o",
+        .name = "./incorrect/no_symbols.o",
         .generator = gen_no_symbols
     },
 

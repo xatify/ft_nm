@@ -265,9 +265,13 @@ void iterate_over_symtab(Elf32_Ehdr *hdr, t_object_file *file) {
 
 
 int cmpsym(const void *sym1, const void *sym2) {
-    return (
-        ft_stralnumcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name)
-    );
+    int diff;
+
+    diff = ft_stralnumcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name);
+    if (diff == 0) {
+        return ft_strcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name);
+    }
+    return diff;
 }
 
 

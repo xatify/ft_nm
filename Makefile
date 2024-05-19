@@ -11,8 +11,10 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS =	src/main.c		\
 		src/ft_nm.c		\
 		src/utils.c		\
-		src/sym_type.c	\
-		src/output.c
+		src/output.c	\
+		src/checks.c	\
+		src/32.c
+
 
 
 

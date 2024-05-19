@@ -1,6 +1,7 @@
 #ifndef __FT_NM_H__
 #define __FT_NM_H__
 
+#include <stdlib.h>
 #include "../libs/ft/libft.h"
 #include <elf.h>
 
@@ -20,28 +21,36 @@ typedef struct s_object_file {
 } t_object_file;
 
 
+typedef enum s_check {
+    VALID   = 0,
+    NOIDENT = 1 << 0x0,
+    NOCLASS = 1 << 0x1,
+    NOENCOD = 1 << 0x2,
+    NOVERS  = 1 << 0x3,
+    NOVALID = 1 << 0x4,
+} t_check;
+
+
+
+
 void init_file(t_object_file *file);
 int ft_nm(t_object_file *);
-void print_error(const char *);
+void print_error(const char *, const char*);
 int map(t_object_file *file);
 int load_elf_header(t_object_file *file);
 
 
 
-
-
-// symbol types
-int is_local(Elf32_Sym *);
-int is_global(Elf32_Sym *);
-int is_weak(Elf32_Sym *);
-int is_absolute(Elf32_Sym *);
-int is_file_name(Elf32_Sym *);
-int is_text(Elf32_Sym *);
-int is_object(Elf32_Sym *);
-char sym_type(Elf32_Ehdr*,  Elf32_Sym*);
-
-
 // printing
 void print_symbol(t_symbol *);
+
+
+//checks
+int check_header(const void *);
+int get_class(const void *);
+int check_32_format(const void *, int);
+
+// 32bit object
+void iterate_over_32_symtab(Elf32_Ehdr *, t_object_file *);
 
 #endif

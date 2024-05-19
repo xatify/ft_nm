@@ -12,7 +12,7 @@ int open_file(t_object_file* file, char *name) {
     int fd;
     fd = open(name, O_RDONLY);
     if (fd < 0) {
-        print_error(name);
+        print_error(name, "No such file");
         return -1;
     }
     file->fd = fd;
@@ -27,7 +27,9 @@ int ft_nm(t_object_file *file) {
 
     // printf("maping %d\n", ret);
     if (ret == 0) {
-        load_elf_header(file);
+        ret = load_elf_header(file);
+        if (ret)
+            return 1;
 
     }
     else {
@@ -100,7 +102,10 @@ int main(int argc, char *argv[]) {
             i++;
         }
     }
-    if (error) return 1;
+    if (error) {
+        reset_file(&file);
+        return 1;
+    }
     return (0);
 }
 

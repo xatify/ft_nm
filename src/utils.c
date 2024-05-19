@@ -2,10 +2,10 @@
 
 #include <stdio.h>
 
-void print_error(const char *str) {
-    ERROR("nm: '");
+void print_error(const char *str, const char *reason) {
+    ERROR("nm: ");
     ERROR(str);
-    ERROR("': ");
-    ERROR("No such file\n");
-    // perror(NULL);
+    ERROR(": ");
+    ERROR(reason);
+    ERROR("\n");
 }

@@ -83,4 +83,22 @@ int check_32_format(const void *file, int size) {
     return VALID;
 }
 
+int check_64_format(const void *file, int size) {
+    Elf64_Ehdr *hdr;
+
+    if (size <= (int)sizeof(Elf64_Ehdr)) {
+        return 1;
+    }
+
+    hdr = (Elf64_Ehdr *)file;
+    if (
+        hdr->e_phoff >= (unsigned int)size ||
+        hdr->e_shoff >= (unsigned int)size
+    ) {
+        return NOVALID;
+    }
+
+    return VALID;
+}
+
 

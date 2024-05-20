@@ -40,17 +40,25 @@ int map(t_object_file *file);
 int load_elf_header(t_object_file *file);
 
 
+// t_symbol functions
+void    init_symbol_array(t_object_file *, size_t);
+t_symbol *get_next_empty_symbol(t_object_file *file);
 
 // printing
-void print_symbol(t_symbol *);
+void print_symbol_32(t_symbol *);
+void print_symbol_64(t_symbol *);
 
 
 //checks
 int check_header(const void *);
 int get_class(const void *);
 int check_32_format(const void *, int);
+int check_64_format(const void *, int);
 
 // 32bit object
 void iterate_over_32_symtab(Elf32_Ehdr *, t_object_file *);
+
+// 64 bit object
+void iterate_over_64_symtab(const Elf64_Ehdr *, t_object_file *const);
 
 #endif

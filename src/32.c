@@ -174,8 +174,8 @@ static int get_symbol_type(Elf32_Sym *sym, Elf32_Shdr *sheader, char *t) {
 static int get_symbol(Elf32_Ehdr* hdr, Elf32_Sym *sym, t_symbol *symbol) {
     unsigned int value;
     char *name;
-    char t;
     Elf32_Shdr *sheader;
+    char t;
 
 
     if (sym->st_name) {

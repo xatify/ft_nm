@@ -29,7 +29,7 @@ static int to_print_value(t_symbol *sym) {
 
 
 
-void print_symbol(t_symbol *sym) {
+void print_symbol_32(t_symbol *sym) {
     char buf[HEXREPSIZE + 1] = {0};
     char c;
 
@@ -45,3 +45,26 @@ void print_symbol(t_symbol *sym) {
 }
 
 
+
+void print_symbol_64(t_symbol *sym) {
+    char buf[16 + 1] = {0};
+    char c;
+
+    c = (to_print_value(sym))? '0': ' ';
+    hexa_rep(sym->value, 16, c, buf);
+
+    OUTPUT(buf);
+    OUTPUT(" ");
+    SOUTPUT(&(sym->type), 1);
+    OUTPUT(" ");
+    OUTPUT(sym->name);
+    OUTPUT("\n");
+}
+
+void print_error(const char *str, const char *reason) {
+    ERROR("nm: ");
+    ERROR(str);
+    ERROR(": ");
+    ERROR(reason);
+    ERROR("\n");
+}

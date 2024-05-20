@@ -68,6 +68,14 @@ int load_elf_header(t_object_file *file) {
             return 1;
         }
     }
+    else if (get_class(file->content) == ELFCLASS64) {
+        if (check_64_format(file->content, file->size) == VALID) {
+            iterate_over_64_symtab((Elf64_Ehdr *)file->content, file);
+        }
+        else {
+            print_error(file->name, "file format not recognized");
+        }
+    }
 
 
     ft_qsort(
@@ -75,8 +83,13 @@ int load_elf_header(t_object_file *file) {
     );
 
     for (int i = 0; i < file->sym_num; i++) {
-        print_symbol(file->symbols + i);
+        if (get_class(file->content) == ELFCLASS32)
+            print_symbol_32(file->symbols + i);
+        else if (get_class(file->content) == ELFCLASS64)
+            print_symbol_64(file->symbols + i);
     }
+
+    // printf("%d\n", file->sym_num);
 
     return 0;
 }

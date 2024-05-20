@@ -175,6 +175,10 @@ void iterate_over_64_symtab(const Elf64_Ehdr* hdr, t_object_file * const file) {
     size_t idx;
 
     sheader = symtab_sh(hdr);
+    if (!sheader) {
+        print_error(file->name, "no symbols");
+        return;
+    }
     init_symbol_array(file, sheader->sh_size / sheader->sh_entsize);
     strtab = (char *)get_64section_by_name(hdr, ".strtab");
     idx = 0;

@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 
+typedef int(*t_comparator)(const void *, const void *);
 
 size_t      ft_strlen(const char *);
 char        *ft_strdup(const char *);
@@ -19,7 +20,7 @@ void        *ft_bzero(void*, size_t);
 
 int         ft_memcmp(const void*, const void*, size_t);
 
-void        ft_qsort(void *base, int nmemb, int size, int (*)(const void*, const void*));
+void        ft_qsort(void *base, int nmemb, int size, t_comparator);
 
 int         ft_strcmp(const char *, const char *);
 

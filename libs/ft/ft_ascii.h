@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_ascii.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 22:11:03 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/20 22:13:04 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 00:13:54 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 00:27:31 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#ifndef FT_ASCII_H
+# define FT_ASCII_H
 
-void	*ft_memcpy(void	*dest,	const void	*src, size_t n)
-{
-	unsigned char		*d;
-	const unsigned char	*s;
+int	to_lower(int c);
+int	ft_isalpha(int c);
+int	ft_isdigit(int c);
+int	ft_isalnum(int c);
 
-	d = (unsigned char *)dest;
-	s = (const unsigned char *)src;
-	while (n--)
-	{
-		*d++ = *s++;
-	}
-	return (dest);
-}
+#endif

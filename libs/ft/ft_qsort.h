@@ -1,27 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_qsort.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/20 22:11:03 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/20 22:13:04 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/20 23:35:21 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/20 23:41:08 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#ifndef FT_QSORT_H
+# define FT_QSORT_H
 
-void	*ft_memcpy(void	*dest,	const void	*src, size_t n)
+typedef int(*	t_comparator)(const void *, const void *);
+
+enum e_VS
 {
-	unsigned char		*d;
-	const unsigned char	*s;
+	VT,
+	V3,
+	VL,
+	VR,
+};
 
-	d = (unsigned char *)dest;
-	s = (const unsigned char *)src;
-	while (n--)
-	{
-		*d++ = *s++;
-	}
-	return (dest);
-}
+enum e_INDICES
+{
+	IDX,
+	LAST,
+	MID,
+};
+
+enum e_START_END
+{
+	LEFT,
+	RIGHT,
+};
+
+#endif

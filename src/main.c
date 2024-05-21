@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/20 21:59:34 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/20 21:59:35 by abbouzid         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -102,8 +114,8 @@ int main(int argc, char *argv[]) {
             i++;
         }
     }
+    reset_file(&file);
     if (error) {
-        reset_file(&file);
         return 1;
     }
     return (0);

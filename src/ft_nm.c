@@ -1,18 +1,10 @@
-#include <elf.h>
-#include <sys/mman.h>
+#include "ft_nm.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-
-#include "ft_nm.h"
-
-
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <string.h>
+#include <sys/mman.h>
 
 
 int map(t_object_file *file) {

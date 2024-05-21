@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   x86.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:33:39 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:51:42 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:54:58 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ void	iterate_over_32_symtab(Elf32_Ehdr *hdr, t_object_file *file)
 		}
 		idx++;
 	}
+}
+
+void	iterator_32(t_object_file *file)
+{
+	iterate_over_32_symtab((Elf32_Ehdr *)file->content, file);
 }

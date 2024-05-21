@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   x64.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:12:58 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:06:22 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:55:52 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,9 @@ void	iterate_over_64_symtab(const Elf64_Ehdr *hdr, t_object_file *const file)
 		}
 		idx++;
 	}
+}
+
+void	iterator_64(t_object_file *file)
+{
+	iterate_over_64_symtab((const Elf64_Ehdr *)file->content, file);
 }

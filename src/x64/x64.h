@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   x64.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 16:59:58 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:09:07 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:36:25 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int			get_64symbol( const Elf64_Ehdr *hdr, const Elf64_Sym *sym, \
 							t_object_file *file, const char *strtab);
 void		iterate_over_64_symtab(const Elf64_Ehdr *hdr, \
 									t_object_file *const file);
+void		iterator_64(t_object_file *file);
 
 #endif

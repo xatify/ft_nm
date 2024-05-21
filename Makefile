@@ -12,6 +12,7 @@ SRCS =	src/main.c		\
 		src/ft_nm.c		\
 		src/output.c	\
 		src/checks.c	\
+		src/utils.c		\
 		src/check_header.c	\
 		src/x86/section.c	\
 		src/x86/sheader.c	\
@@ -23,7 +24,8 @@ SRCS =	src/main.c		\
 		src/x64/shstrtab.c	\
 		src/x64/symbol.c	\
 		src/x64/x64.c		\
-		src/object_file.c
+		src/object_file.c	\
+		src/symbol.c
 
 
 OBJS = $(SRCS:.c=.o)

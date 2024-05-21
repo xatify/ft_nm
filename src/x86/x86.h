@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   x86.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:16:38 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:53:23 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:37:45 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int			get_symbol_type(Elf32_Sym *sym, Elf32_Shdr *sheader, char *t);
 int			get_symbol(Elf32_Ehdr *hdr, Elf32_Sym *sym, t_object_file *file, \
 						const char *strtab);
 void		iterate_over_32_symtab(Elf32_Ehdr *hdr, t_object_file *file);
+void		iterator_32(t_object_file *file);
 
 #endif

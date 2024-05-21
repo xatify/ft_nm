@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ascii.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 00:18:16 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 00:27:23 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:51:00 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 int	to_lower(int c)
 {
@@ -20,7 +19,7 @@ int	to_lower(int c)
 
 int	ft_isalpha(int c)
 {
-	return ((c >= 'a' && c <= 'z') || (c >= 'a' && c <= 'z'));
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
 
 int	ft_isdigit(int c)

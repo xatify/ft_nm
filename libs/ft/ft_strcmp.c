@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 23:58:13 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 00:20:10 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:07:25 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_ascii.h"
 
-
 size_t	ft_strlen(const char *str);
+int		ft_memcmp(const void *lhs, const void *rhs, size_t size);
 
 int	ft_strcmp(const char *_s1, const char *_s2)
 {
@@ -36,7 +36,7 @@ int	ft_strcmp(const char *_s1, const char *_s2)
 static void	no_special(const char *_s1, char *s1)
 {
 	size_t	i;
-	int	j;
+	int		j;
 
 	j = 0;
 	i = 0;
@@ -66,4 +66,9 @@ int	ft_stralnumcmp(const char *_s1, const char *_s2)
 	free(s1);
 	free(s2);
 	return (ret);
+}
+
+int	ft_strequal(const char *s1, const char *s2)
+{
+	return (!ft_memcmp(s1, s2, ft_strlen(s1)));
 }

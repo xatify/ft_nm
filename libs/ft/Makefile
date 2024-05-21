@@ -13,7 +13,9 @@ SRCS =	fd_write.c		\
 		ft_memcmp.c		\
 		ft_qsort.c		\
 		ft_strcmp.c		\
-		ft_ascii.c
+		ft_ascii.c		\
+		ft_memswap.c
+
 
 OBJS = $(SRCS:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 21:59:34 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/20 21:59:35 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:56:19 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ int main(int argc, char *argv[]) {
             if (ret == -1) {
                 exit(1);
             }
-            OUTPUT("\n");
-            OUTPUT(argv[i]);
-            OUTPUT(":");
-            OUTPUT("\n");
+            output("\n");
+            output(argv[i]);
+            output(":");
+            output("\n");
             ret = ft_nm(&file);
             if (ret) {
                 error = 1;

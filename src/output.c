@@ -36,12 +36,12 @@ void print_symbol_32(t_symbol *sym) {
     c = (to_print_value(sym))? '0': ' ';
     hexa_rep(sym->value, HEXREPSIZE, c, buf);
 
-    OUTPUT(buf);
-    OUTPUT(" ");
-    SOUTPUT(&(sym->type), 1);
-    OUTPUT(" ");
-    OUTPUT(sym->name);
-    OUTPUT("\n");
+    output(buf);
+    output(" ");
+    soutput(&(sym->type), 1);
+    output(" ");
+    output(sym->name);
+    output("\n");
 }
 
 
@@ -53,18 +53,18 @@ void print_symbol_64(t_symbol *sym) {
     c = (to_print_value(sym))? '0': ' ';
     hexa_rep(sym->value, 16, c, buf);
 
-    OUTPUT(buf);
-    OUTPUT(" ");
-    SOUTPUT(&(sym->type), 1);
-    OUTPUT(" ");
-    OUTPUT(sym->name);
-    OUTPUT("\n");
+    output(buf);
+    output(" ");
+    soutput(&(sym->type), 1);
+    output(" ");
+    output(sym->name);
+    output("\n");
 }
 
 void print_error(const char *str, const char *reason) {
-    ERROR("nm: ");
-    ERROR(str);
-    ERROR(": ");
-    ERROR(reason);
-    ERROR("\n");
+    error("nm: ");
+    error(str);
+    error(": ");
+    error(reason);
+    error("\n");
 }

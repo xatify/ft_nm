@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_ascii.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:39:48 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 14:40:43 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 00:18:16 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 13:51:00 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *str)
+int	to_lower(int c)
 {
-	int	len;
+	if (c >= 'A' && c <= 'Z')
+		return (c + 0x20);
+	return (c);
+}
 
-	len = 0;
-	while (*str)
-	{
-		len++;
-		str++;
-	}
-	return (len);
+int	ft_isalpha(int c)
+{
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+int	ft_isalnum(int c)
+{
+	return (ft_isalpha(c) || ft_isdigit(c));
 }

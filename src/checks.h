@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   checks.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:39:48 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 14:40:43 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 18:01:35 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 20:13:05 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *str)
-{
-	int	len;
+#ifndef CHECKS_H
+# define CHECKS_H
 
-	len = 0;
-	while (*str)
-	{
-		len++;
-		str++;
-	}
-	return (len);
-}
+typedef enum s_check
+{
+	VALID = 0,
+	NOIDENT = 1 << 0x0,
+	NOCLASS = 1 << 0x1,
+	NOENCOD = 1 << 0x2,
+	NOVERS = 1 << 0x3,
+	NOVALID = 1 << 0x4,
+}	t_check;
+
+int	check_header(const void *content);
+int	get_class(const void *content);
+int	check_32_format(const void *content, int size);
+int	check_64_format(const void *content, int size);
+
+#endif

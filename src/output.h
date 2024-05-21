@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nm.h                                            :+:      :+:    :+:   */
+/*   output.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 22:15:20 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 22:15:51 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 17:24:07 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 23:36:01 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_NM_H
-# define FT_NM_H
+#ifndef OUTPUT_H
+# define OUTPUT_H
 
-# include "../libs/ft/libft.h"
-# include "x64/x64.h"
-# include "x86/x86.h"
-# include "object_file.h"
-# include "output.h"
-# include "checks.h"
+# include "symbol.h"
 
-typedef void(*	t_printer) (t_symbol *);
-typedef void(*	t_iterator) (t_object_file *);
-typedef int(*	t_checker) (const void *, int);
+# define SYMVAL32WIDTH 8
+# define SYMVAL64WIDTH 16
 
-int	ft_nm(t_object_file *file);
+void	print_error(const char *str, const char *reason);
+void	print_symbol_64(t_symbol *sym);
+void	print_symbol_32(t_symbol *sym);
+int		to_print_value(t_symbol *sym);
+void	hexa_rep(size_t n, int size, char c, char *buf);
+void	print_file_name(const char *fname);
 
 #endif

@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_memswap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:39:48 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 14:40:43 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 14:14:56 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 14:26:31 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *str)
-{
-	int	len;
+#include <stddef.h>
 
-	len = 0;
-	while (*str)
+void	ft_memswap(void *vl, void *vr, int size)
+{
+	char	*pl;
+	char	*pr;
+	char	c;
+
+	pl = (char *)vl;
+	pr = (char *)vr;
+	while (size--)
 	{
-		len++;
-		str++;
+		c = *pl;
+		*pl = *pr;
+		*pr = c;
+		pl++;
+		pr++;
 	}
-	return (len);
 }

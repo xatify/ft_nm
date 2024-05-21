@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nm.h                                            :+:      :+:    :+:   */
+/*   symbol.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 22:15:20 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 22:15:51 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 22:50:13 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 23:10:01 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_NM_H
-# define FT_NM_H
+#ifndef SYMBOL_H
+# define SYMBOL_H
 
-# include "../libs/ft/libft.h"
-# include "x64/x64.h"
-# include "x86/x86.h"
 # include "object_file.h"
-# include "output.h"
-# include "checks.h"
+# include <stddef.h>
 
-typedef void(*	t_printer) (t_symbol *);
-typedef void(*	t_iterator) (t_object_file *);
-typedef int(*	t_checker) (const void *, int);
+typedef struct s_object_file	t_object_file;
+typedef struct s_symbol
+{
+	size_t	value;
+	char	type;
+	char	*name;
+}	t_symbol;
 
-int	ft_nm(t_object_file *file);
+int			cmpsym(const void *sym1, const void *sym2);
+t_symbol	*get_next_empty_symbol(t_object_file *file);
+void		init_symbol_array(t_object_file *file, size_t size);
 
 #endif

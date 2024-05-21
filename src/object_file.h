@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nm.h                                            :+:      :+:    :+:   */
+/*   object_file.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 22:15:20 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 22:15:51 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 16:39:03 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 23:08:37 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_NM_H
-# define FT_NM_H
+#ifndef OBJECT_FILE_H
+# define OBJECT_FILE_H
 
-# include "../libs/ft/libft.h"
-# include "x64/x64.h"
-# include "x86/x86.h"
-# include "object_file.h"
-# include "output.h"
-# include "checks.h"
+# include <stddef.h>
 
-typedef void(*	t_printer) (t_symbol *);
-typedef void(*	t_iterator) (t_object_file *);
-typedef int(*	t_checker) (const void *, int);
+typedef struct s_symbol	t_symbol;
+typedef struct s_object_file
+{
+	int			fd;
+	char		*name;
+	int			size;
+	void		*content;
+	int			sym_num;
+	t_symbol	*symbols;
+}	t_object_file;
 
-int	ft_nm(t_object_file *file);
+int		map(t_object_file *file);
+int		open_file(t_object_file *file, char *name);
+void	init_file(t_object_file *file);
+void	reset_file(t_object_file *file);
 
 #endif

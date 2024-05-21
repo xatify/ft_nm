@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   section.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 14:39:48 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 14:40:43 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 17:09:48 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 18:37:34 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *str)
-{
-	int	len;
+#include "x64.h"
 
-	len = 0;
-	while (*str)
+void	*get_64section_by_name(const Elf64_Ehdr *hdr, const char *name)
+{
+	Elf64_Shdr	*sheader;
+
+	sheader = get64_sheader_by_name(hdr, name);
+	if (sheader)
 	{
-		len++;
-		str++;
+		return ((char *)hdr + sheader->sh_offset);
 	}
-	return (len);
+	return (NULL);
 }

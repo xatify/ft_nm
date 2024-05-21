@@ -1,95 +1,80 @@
-#include <elf.h>
-#include <sys/mman.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_nm.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/21 22:00:17 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 22:15:05 by abbouzid         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_nm.h"
 
+static t_printer	get_printer(int class)
+{
+	static t_printer	printers[] = {
+		NULL,
+		print_symbol_32,
+		print_symbol_64,
+	};
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <string.h>
-
-
-int map(t_object_file *file) {
-    struct stat filestat;
-
-    if (fstat(file->fd, &filestat) == -1) {
-        return (-1);
-    }
-    file->size = filestat.st_size;
-
-    file->content = mmap(NULL, file->size, PROT_READ, MAP_PRIVATE, file->fd, 0);
-
-    if (file->content == MAP_FAILED) {
-        return (-1);
-    }
-    return 0;
+	return (printers[class]);
 }
 
+static t_iterator	get_iterator(int class)
+{
+	static t_iterator	iterators[] = {
+		NULL,
+		iterator_32,
+		iterator_64,
+	};
 
-int cmpsym(const void *sym1, const void *sym2) {
-    int diff;
-
-    diff = ft_stralnumcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name);
-    if (diff == 0) {
-        return ft_strcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name);
-    }
-    return diff;
+	return (iterators[class]);
 }
 
+static t_checker	get_checker(int class)
+{
+	static t_checker	checkers[] = {
+		NULL,
+		check_32_format,
+		check_64_format,
+	};
 
-int load_elf_header(t_object_file *file) {
+	return (checkers[class]);
+}
 
+static int	run(t_object_file *file)
+{
+	int	class;
+	int	i;
 
-    size_t size = EI_NIDENT;
+	if (file->size <= EI_NIDENT)
+		return (-1);
+	if (check_header(file->content) == VALID)
+	{
+		class = get_class(file->content);
+		if ((*get_checker(class))(file->content, file->size) == VALID)
+		{
+			(*get_iterator(class))(file);
+			ft_qsort(file->symbols, file->sym_num, sizeof(t_symbol), cmpsym);
+			i = 0;
+			while (i < file->sym_num)
+			{
+				(*get_printer(class))(file->symbols + i);
+				i++;
+			}
+			return (0);
+		}
+	}
+	print_error(file->name, "file format not recognized");
+	return (1);
+}
 
-    if (file->size <= (int)size) {
-        return (-1);
-    }
-
-    int ret = check_header(file->content);
-    if (ret != VALID) {
-
-        print_error(file->name, "file format not recognized");
-        return 1;
-    }
-
-    if (get_class(file->content) == ELFCLASS32) {
-        if (check_32_format(file->content, file->size) == VALID) {
-            iterate_over_32_symtab((Elf32_Ehdr *)file->content, file);
-        }
-        else {
-            print_error(file->name, "file format not recognized");
-            return 1;
-        }
-    }
-    else if (get_class(file->content) == ELFCLASS64) {
-        if (check_64_format(file->content, file->size) == VALID) {
-            iterate_over_64_symtab((Elf64_Ehdr *)file->content, file);
-        }
-        else {
-            print_error(file->name, "file format not recognized");
-        }
-    }
-
-
-    ft_qsort(
-        file->symbols, file->sym_num, sizeof(t_symbol), cmpsym
-    );
-
-    for (int i = 0; i < file->sym_num; i++) {
-        if (get_class(file->content) == ELFCLASS32)
-            print_symbol_32(file->symbols + i);
-        else if (get_class(file->content) == ELFCLASS64)
-            print_symbol_64(file->symbols + i);
-    }
-
-    // printf("%d\n", file->sym_num);
-
-    return 0;
+int	ft_nm(t_object_file *file)
+{
+	if (map(file) == 0 && run(file) == 0)
+		return (0);
+	return (1);
 }

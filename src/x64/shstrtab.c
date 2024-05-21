@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   section.c                                          :+:      :+:    :+:   */
+/*   shstrtab.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 15:29:41 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:11:04 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 17:07:51 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 18:44:43 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "x86.h"
+#include "x64.h"
 
-void	*get_section_by_name(Elf32_Ehdr *hdr, const char *name)
+Elf64_Shdr	*shstrtab_64header(const Elf64_Ehdr *hdr)
 {
-	Elf32_Shdr	*sheader;
-
-	sheader = get_sheader_by_name(hdr, name);
-	if (sheader)
+	if (hdr->e_shstrndx != SHN_UNDEF)
 	{
-		return ((char *)hdr + sheader->sh_offset);
+		return (elf64_sheader_idx(hdr, hdr->e_shstrndx));
 	}
 	return (NULL);
+}
+
+char	*shstr64_lookup_string(const Elf64_Ehdr *hdr, const size_t offset)
+{
+	Elf64_Shdr	*sth;
+
+	sth = shstrtab_64header(hdr);
+	return ((char *)hdr + sth->sh_offset + offset);
 }

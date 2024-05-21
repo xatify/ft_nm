@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 15:29:41 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:11:04 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 17:09:48 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 18:37:34 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "x86.h"
+#include "x64.h"
 
-void	*get_section_by_name(Elf32_Ehdr *hdr, const char *name)
+void	*get_64section_by_name(const Elf64_Ehdr *hdr, const char *name)
 {
-	Elf32_Shdr	*sheader;
+	Elf64_Shdr	*sheader;
 
-	sheader = get_sheader_by_name(hdr, name);
+	sheader = get64_sheader_by_name(hdr, name);
 	if (sheader)
 	{
 		return ((char *)hdr + sheader->sh_offset);

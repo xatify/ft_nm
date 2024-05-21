@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   section.c                                          :+:      :+:    :+:   */
+/*   output.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 15:29:41 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:11:04 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 17:24:07 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 17:30:25 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "x86.h"
+#ifndef OUTPUT_H
+# define OUTPUT_H
 
-void	*get_section_by_name(Elf32_Ehdr *hdr, const char *name)
-{
-	Elf32_Shdr	*sheader;
+void print_error(const char *str, const char *reason);
+void print_symbol_64(t_symbol *sym);
+void print_symbol_32(t_symbol *sym);
+int to_print_value(t_symbol *sym);
+void hexa_rep(size_t n, int size, char c, char *buf);
 
-	sheader = get_sheader_by_name(hdr, name);
-	if (sheader)
-	{
-		return ((char *)hdr + sheader->sh_offset);
-	}
-	return (NULL);
-}
+
+#endif

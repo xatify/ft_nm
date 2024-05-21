@@ -10,14 +10,20 @@ CFLAGS = -g -Wall -Wextra -Werror
 
 SRCS =	src/main.c		\
 		src/ft_nm.c		\
-		src/utils.c		\
 		src/output.c	\
 		src/checks.c	\
-		src/32.c		\
-		src/64.c
-
-
-
+		src/check_header.c	\
+		src/x86/section.c	\
+		src/x86/sheader.c	\
+		src/x86/shstrtab.c	\
+		src/x86/symbol.c	\
+		src/x86/x86.c		\
+		src/x64/section.c	\
+		src/x64/sheader.c	\
+		src/x64/shstrtab.c	\
+		src/x64/symbol.c	\
+		src/x64/x64.c		\
+		src/object_file.c
 
 
 OBJS = $(SRCS:.c=.o)

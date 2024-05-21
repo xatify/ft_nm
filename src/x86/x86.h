@@ -6,19 +6,29 @@
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:16:38 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 15:44:21 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:53:23 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef X86_H
 # define X86_H
 
-#include ""
+# include <elf.h>
+# include <stddef.h>
+# include <stdlib.h>
+# include "../object_file.h"
+# include "../output.h"
 
-void iterate_over_32_symtab(Elf32_Ehdr *hdr, t_object_file *file);
-
-void *get_section_by_name(Elf32_Ehdr *hdr, const char *name);
-
-
+void		*get_section_by_name(Elf32_Ehdr *hdr, const char *name);
+Elf32_Shdr	*elf_sheader(Elf32_Ehdr *hdr);
+Elf32_Shdr	*elf_sheader_idx(Elf32_Ehdr *hdr, int idx);
+Elf32_Shdr	*get_sheader_by_name(Elf32_Ehdr *hdr, const char *name);
+Elf32_Shdr	*shstrtab_header(Elf32_Ehdr *hdr);
+char		*shstr_lookup_string(Elf32_Ehdr *hdr, int offset);
+char		*get_symbol_name(Elf32_Ehdr *hdr, size_t idx);
+int			get_symbol_type(Elf32_Sym *sym, Elf32_Shdr *sheader, char *t);
+int			get_symbol(Elf32_Ehdr *hdr, Elf32_Sym *sym, t_object_file *file, \
+						const char *strtab);
+void		iterate_over_32_symtab(Elf32_Ehdr *hdr, t_object_file *file);
 
 #endif

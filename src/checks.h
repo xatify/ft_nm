@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   section.c                                          :+:      :+:    :+:   */
+/*   checks.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 15:29:41 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:11:04 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 18:01:35 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 20:13:05 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "x86.h"
+#ifndef CHECKS_H
+# define CHECKS_H
 
-void	*get_section_by_name(Elf32_Ehdr *hdr, const char *name)
+typedef enum s_check
 {
-	Elf32_Shdr	*sheader;
+	VALID = 0,
+	NOIDENT = 1 << 0x0,
+	NOCLASS = 1 << 0x1,
+	NOENCOD = 1 << 0x2,
+	NOVERS = 1 << 0x3,
+	NOVALID = 1 << 0x4,
+}	t_check;
 
-	sheader = get_sheader_by_name(hdr, name);
-	if (sheader)
-	{
-		return ((char *)hdr + sheader->sh_offset);
-	}
-	return (NULL);
-}
+int	check_header(const void *content);
+int	get_class(const void *content);
+int	check_32_format(const void *content, int size);
+int	check_64_format(const void *content, int size);
+
+#endif

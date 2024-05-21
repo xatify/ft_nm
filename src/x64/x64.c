@@ -1,45 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   x86.c                                              :+:      :+:    :+:   */
+/*   x64.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 15:33:39 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 19:51:42 by abbouzid         ###   ########.fr       */
+/*   Created: 2024/05/21 17:12:58 by abbouzid          #+#    #+#             */
+/*   Updated: 2024/05/21 19:06:22 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "x86.h"
+#include "x64.h"
 
-/**
- * @brief iterate over symbol table of 32 bit object file
- *  and populate the symbols array in file struct
- * 
- * @param hdr elf header
- * @param file 
- */
-void	iterate_over_32_symtab(Elf32_Ehdr *hdr, t_object_file *file)
+void	iterate_over_64_symtab(const Elf64_Ehdr *hdr, t_object_file *const file)
 {
-	Elf32_Shdr	*sheader;
+	Elf64_Shdr	*sheader;
 	char		*strtab;
 	size_t		idx;
 
-	sheader = get_sheader_by_name(hdr, ".symtab");
+	sheader = symtab_sh(hdr);
 	if (!sheader)
 	{
 		print_error(file->name, "no symbols");
 		return ;
 	}
 	init_symbol_array(file, sheader->sh_size / sheader->sh_entsize);
-	strtab = (char *)get_section_by_name(hdr, ".strtab");
+	strtab = (char *)get_64section_by_name(hdr, ".strtab");
 	idx = 0;
 	while (idx < (sheader->sh_size / sheader->sh_entsize))
 	{
 		if (idx != STN_UNDEF)
 		{
-			if (get_symbol(hdr, (Elf32_Sym *)((char *)hdr + \
-				sheader->sh_offset) + idx, file, strtab) == 0)
+			if (get_64symbol(hdr, (Elf64_Sym *)((char *)hdr + \
+			sheader->sh_offset) + idx, file, strtab) == 0)
 			{
 				file->sym_num += 1;
 			}

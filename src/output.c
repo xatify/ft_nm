@@ -20,7 +20,7 @@ void hexa_rep(size_t n, int size, char c, char *buf) {
 }
 
 
-static int to_print_value(t_symbol *sym) {
+int to_print_value(t_symbol *sym) {
     if (sym->type == 'U' || sym->type == 'u' || sym->type == 'w') {
         return 0;
     }

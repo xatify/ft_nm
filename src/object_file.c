@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 17:33:01 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 23:05:05 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:59:58 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ int	map(t_object_file *file)
 
 	if (fstat(file->fd, &filestat) == -1)
 		return (-1);
+	if (S_ISDIR(filestat.st_mode))
+	{
+		print_error(file->name, "is a directory");
+		return (-1);
+	}
 	file->size = filestat.st_size;
 	file->content = mmap(NULL, file->size, PROT_READ, MAP_PRIVATE, file->fd, 0);
 	if (file->content == MAP_FAILED)

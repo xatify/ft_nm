@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   symbol.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abbouzid <abbouzid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abbouzid <abbouzid@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 22:53:29 by abbouzid          #+#    #+#             */
-/*   Updated: 2024/05/21 23:38:11 by abbouzid         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:24:32 by abbouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,19 @@ int	cmpsym(const void *sym1, const void *sym2)
 
 	diff = ft_stralnumcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name);
 	if (!diff)
-		return (ft_strcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name));
+	{
+		diff = ft_strcmp(((t_symbol *)sym1)->name, ((t_symbol *)sym2)->name);
+		if (!diff)
+		{
+			diff = ((t_symbol *)sym1)->type - ((t_symbol *)sym2)->type;
+			if (!diff)
+			{
+				if (((t_symbol *)sym1)->value >= ((t_symbol *)sym2)->value)
+					return (1);
+				return (-1);
+			}
+		}
+	}
 	return (diff);
 }
 

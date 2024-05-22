@@ -1,31 +1,32 @@
-TARGET = src/nm
+TARGET = src/ft_nm
 
 
 LIBFT_PATH = libs/ft
+SRC_DIR = src
 
 LIBFT = $(LIBFT_PATH)/libft.a
 
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
 
-SRCS =	src/main.c		\
-		src/ft_nm.c		\
-		src/output.c	\
-		src/checks.c	\
-		src/utils.c		\
-		src/check_header.c	\
-		src/x86/section.c	\
-		src/x86/sheader.c	\
-		src/x86/shstrtab.c	\
-		src/x86/symbol.c	\
-		src/x86/x86.c		\
-		src/x64/section.c	\
-		src/x64/sheader.c	\
-		src/x64/shstrtab.c	\
-		src/x64/symbol.c	\
-		src/x64/x64.c		\
-		src/object_file.c	\
-		src/symbol.c
+SRCS =	$(SRC_DIR)/main.c			\
+		$(SRC_DIR)/ft_nm.c			\
+		$(SRC_DIR)/output.c			\
+		$(SRC_DIR)/checks.c			\
+		$(SRC_DIR)/utils.c			\
+		$(SRC_DIR)/check_header.c	\
+		$(SRC_DIR)/x86/section.c	\
+		$(SRC_DIR)/x86/sheader.c	\
+		$(SRC_DIR)/x86/shstrtab.c	\
+		$(SRC_DIR)/x86/symbol.c		\
+		$(SRC_DIR)/x86/x86.c		\
+		$(SRC_DIR)/x64/section.c	\
+		$(SRC_DIR)/x64/sheader.c	\
+		$(SRC_DIR)/x64/shstrtab.c	\
+		$(SRC_DIR)/x64/symbol.c		\
+		$(SRC_DIR)/x64/x64.c		\
+		$(SRC_DIR)/object_file.c	\
+		$(SRC_DIR)/symbol.c
 
 
 OBJS = $(SRCS:.c=.o)
@@ -61,3 +62,7 @@ test:
 	echo "testing on 64bit object"; \
 	bash tests/test_32.sh "64"; \
 	fi
+
+norm:
+	norminette $(LIBFT_PATH)
+	norminette $(SRC_DIR)

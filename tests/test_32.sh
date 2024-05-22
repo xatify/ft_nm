@@ -103,7 +103,7 @@ test_incorrect_elfs() {
     cd - > /dev/null
 }
 
-NMPATH="./src/nm"
+NMPATH="./src/ft_nm"
 
 if [ ! -f $NMPATH ]; then
     >&2 echo "command not found";
